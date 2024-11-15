@@ -3,9 +3,11 @@
 
 int main() {
     float *ptr = get_cpu_load();
-    for (int i = 0; i < 4; i++) {
-        printf("%f%%\n", *ptr);
-        ptr++;
-    }
+
+    printf("---CPU LOAD---\n");
+    printf("User: %f%%\n", *ptr); ptr++;
+    printf("System: %f%%\n", *ptr); ptr++;
+    printf("Idle: %f%%\n", *ptr); ptr++;
+    printf("Nice: %f%%\n", *ptr);
     return 0;
 }
