@@ -1,9 +1,9 @@
 #include <stdio.h> // standard input/output functions
+#include <stdlib.h> // used for the exit() function
 #include <mach/mach.h> // Mach-specific APIs, used to get parameters like CPU load
 
-
-// Print CPU usage
-void print_cpu_load() {
+// Returns a pointer pointing to the array holding the cpu load percentages
+float *get_cpu_load() {
 
     host_cpu_load_info_data_t cpu_load; // struct for CPU load information, populated later by host_statistics()
     mach_msg_type_number_t cpu_load_count = HOST_CPU_LOAD_INFO_COUNT; // specifies number of elements in the cpu_load struct
@@ -14,7 +14,7 @@ void print_cpu_load() {
     // Checks if host_statistics() was executed successfully
     if (return_status != KERN_SUCCESS) {
         fprintf(stderr, "Failed to get CPU info: %s\n", mach_error_string(return_status)); // if error, converts into readable message and prints to stderr
-        return; // exit print_cpu_load() early
+        exit(1);//return; // exit get_cpu_load() early
     }
 
     // Calculate CPU load as a percentage for user, system, idle, and nice
@@ -23,16 +23,12 @@ void print_cpu_load() {
         total_ticks += cpu_load.cpu_ticks[i]; // add number of ticks for each state
     }
 
-    // Print CPU load statistics
-    printf("---CPU USAGE---\n");
-    printf("User: %f%%\n", (float) cpu_load.cpu_ticks[CPU_STATE_USER] / total_ticks * 100); // cpu percentage by user processes
-    printf("System: %f%%\n", (float)cpu_load.cpu_ticks[CPU_STATE_SYSTEM] / total_ticks * 100); // cpu percentage by system processes
-    printf("Idle: %f%%\n", (float)cpu_load.cpu_ticks[CPU_STATE_IDLE] / total_ticks * 100); // cpu percentage idle
-    printf("Nice: %f%%\n", (float)cpu_load.cpu_ticks[CPU_STATE_NICE] / total_ticks * 100); // cpu percentage by processes with nice priority
-}
-
-
-int main() {
-    print_cpu_load();
-    return 0;
+    // Save CPU load statistics to an array and return pointer for array
+    float *percentages = (float *)malloc(4);
+    percentages[0] = (float)cpu_load.cpu_ticks[CPU_STATE_USER] / total_ticks * 100;
+    percentages[1] = (float)cpu_load.cpu_ticks[CPU_STATE_SYSTEM] / total_ticks * 100;
+    percentages[2] = (float)cpu_load.cpu_ticks[CPU_STATE_IDLE] / total_ticks * 100;
+    percentages[3] = (float)cpu_load.cpu_ticks[CPU_STATE_NICE] / total_ticks * 100;
+    float *ptr = percentages;
+    return ptr;
 }
