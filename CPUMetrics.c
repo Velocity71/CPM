@@ -1,4 +1,4 @@
-#include <stdio.h> // standard input/output functions
+#include <stdio.h> // used for error printing
 #include <stdlib.h> // used for the exit() function
 #include <mach/mach.h> // Mach-specific APIs, used to get parameters like CPU load
 
@@ -13,8 +13,8 @@ float *get_cpu_load() {
 
     // Checks if host_statistics() was executed successfully
     if (return_status != KERN_SUCCESS) {
-        fprintf(stderr, "Failed to get CPU info: %s\n", mach_error_string(return_status)); // if error, converts into readable message and prints to stderr
-        exit(1);//return; // exit get_cpu_load() early
+        fprintf(stderr, "Failed to get CPU load  info: %s\n", mach_error_string(return_status)); // if error, converts into readable message and prints to stderr
+        exit(1); // exit get_cpu_load() early
     }
 
     // Calculate CPU load as a percentage for user, system, idle, and nice
