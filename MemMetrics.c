@@ -2,7 +2,7 @@
 #include <stdlib.h> // used for the exit() function
 #include <mach/mach.h> // Mach-specific APIs, used to get parameters like resident and virtual RAM
 
-// Returns a pointer pointing to the array holding the cpu load percentages
+// Returns a pointer pointing to the array holding the memory usage statistics
 unsigned long *get_memory_usage() {
 
     task_basic_info_data_t memory_usage; // struct for memory usage statistics, populated later by task_info()

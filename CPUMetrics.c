@@ -4,7 +4,6 @@
 
 // Returns a pointer pointing to the array holding the cpu load percentages
 float *get_cpu_load() {
-
     host_cpu_load_info_data_t cpu_load; // struct for CPU load information, populated later by host_statistics()
     mach_msg_type_number_t cpu_load_count = HOST_CPU_LOAD_INFO_COUNT; // specifies number of elements in the cpu_load struct
 
@@ -23,12 +22,11 @@ float *get_cpu_load() {
         total_ticks += cpu_load.cpu_ticks[i]; // add number of ticks for each state
     }
 
-    // Save CPU load statistics to an array and return pointer for array
-    float *percentages = (float *)malloc(4);
+    // Save CPU load statistics to an array and return a pointer for array
+    float *percentages = (float *)malloc(4 * sizeof(float));
     percentages[0] = (float)cpu_load.cpu_ticks[CPU_STATE_USER] / total_ticks * 100;
     percentages[1] = (float)cpu_load.cpu_ticks[CPU_STATE_SYSTEM] / total_ticks * 100;
     percentages[2] = (float)cpu_load.cpu_ticks[CPU_STATE_IDLE] / total_ticks * 100;
     percentages[3] = (float)cpu_load.cpu_ticks[CPU_STATE_NICE] / total_ticks * 100;
-    float *ptr = percentages;
-    return ptr;
+    return percentages;
 }
