@@ -1,8 +1,8 @@
 #include <stdio.h>
 
-#include "CPUMetrics.h"
-#include "MemMetrics.h"
-#include "DiskMetrics.h"
+#include "Metrics/headers/CPUMetrics.h"
+#include "Metrics/headers/MemMetrics.h"
+#include "Metrics/headers/DiskMetrics.h"
 
 int main() {
     float *clptr = get_cpu_load();
