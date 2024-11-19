@@ -1,1 +1,3 @@
-*.sh # ignore shell scripts (used for program testing)
+*.sh 	# ignore shell scripts (used for program compiling)
+*.o  	# ignore all compiled c files (compiled files not needed yet)
+*.class # ignore all compiled java files (compiled files not needed yet):
