@@ -1,3 +1,4 @@
+// used to test all the metrics to make sure they work
 #include <stdio.h>
 
 #include "Metrics/headers/CPUMetrics.h"

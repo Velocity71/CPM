@@ -1,3 +1,8 @@
+// GetMetrics.c
+// Interface with and give values to Java code
+
+// Expect file not found, has to be included in compilation
+// Holds information for JNIEXPORT and JNICALL
 #include <jni.h>
 
 #include "../Metrics/headers/CPUMetrics.h"

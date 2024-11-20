@@ -1,29 +1,92 @@
-public class GetMetrics {
-    public native float getCpuUser();
-    public native float getCpuSystem();
-    public native float getCpuIdle();
-    public native float getCpuNice();
-    public native long getMemResident();
-    public native long getMemVirtual();
-    public native long getDiskTotal();
-    public native long getDiskUsed();
+// Interface with and obtain values from C code
 
+class GetMetrics {
+    // Value Arrays hold last 10 seconds of readings (by 1 second)
+    private static float[] CpuUserVals = new float[10];
+    private static float[] CpuSystemVals = new float[10];
+    private static float[] CpuIdleVals = new float[10];
+    private static float[] CpuNiceVals = new float[10];
+
+    private static long[] MemResidentVals = new long[10];
+    private static long[] MemVirtualVals = new long[10];
+
+    private static long[] DiskTotalVals = new long[10];
+    private static long[] DiskUsedVals = new long[10];
+
+    // Native methods used for C interfacing
+    private static native float getCpuUser();
+    private static native float getCpuSystem();
+    private static native float getCpuIdle();
+    private static native float getCpuNice();
+
+    private static native long getMemResident();
+    private static native long getMemVirtual();
+
+    private static native long getDiskTotal();
+    private static native long getDiskUsed();
+
+    // Library Metrics has C methods
     static {System.loadLibrary("Metrics");}
 
-    public static void main(String[] args) {
-        GetMetrics metrics = new GetMetrics();
-        System.out.println("---CPU LOAD---");
-        System.out.println(String.format("User:   %f%%", metrics.getCpuUser()));
-        System.out.println(String.format("System: %f%%", metrics.getCpuSystem()));
-        System.out.println(String.format("Idle:   %f%%", metrics.getCpuIdle()));
-        System.out.println(String.format("Nice:   %f%%", metrics.getCpuNice()));
+    // Update value arrays
+    public static void update() {
 
-        System.out.println("---MEMORY USAGE---");
-        System.out.println(String.format("Resident (Physical RAM) size: %d bytes", metrics.getMemResident()));
-        System.out.println(String.format("Virtual (Virtual RAM) size: %d bytes", metrics.getMemVirtual()));
+        // update CPU User% values
+        for (int i = 9; i > 0; i--) {
+            CpuUserVals[i+1] = CpuUserVals[i];
+        }
+        CpuUserVals[0] = getCpuUser();
 
-        System.out.println("---DISK USAGE---");
-        System.out.println(String.format("Total Space: %d bytes", metrics.getDiskTotal()));
-        System.out.println(String.format("Used Space: %d bytes", metrics.getDiskUsed()));
+        // update CPU System% values
+        for (int i = 9; i > 0; i--) {
+            CpuSystemVals[i+1] = CpuSystemVals[i];
+        }
+        CpuSystemVals[0] = getCpuSystem();
+
+        // update CPU Idle% values
+        for (int i = 9; i > 0; i--) {
+            CpuIdleVals[i+1] = CpuIdleVals[i];
+        }
+        CpuIdleVals[0] = getCpuIdle();
+
+        // update CPU Nice% values
+        for (int i = 9; i > 0; i--) {
+            CpuNiceVals[i+1] = CpuNiceVals[i];
+        }
+        CpuNiceVals[0] = getCpuNice();
+
+        // update memory resident bytes values
+        for (int i = 9; i > 0; i--) {
+            MemResidentVals[i+1] = MemResidentVals[i];
+        }
+        MemResidentVals[0] = getMemResident();
+
+        // update memory virtual bytes values
+        for (int i = 9; i > 0; i--) {
+            MemVirtualVals[i+1] = MemVirtualVals[i];
+        }
+        MemVirtualVals[0] = getMemVirtual();
+
+        // update Disk total bytes values
+        for (int i = 9; i > 0; i--) {
+            DiskTotalVals[i+1] = DiskTotalVals[i];
+        }
+        DiskTotalVals[0] = getDiskTotal();
+
+        // update Disk used bytes values
+        for (int i = 9; i > 0; i--) {
+            DiskUsedVals[i+1] = DiskUsedVals[i];
+        }
+        DiskUsedVals[0] = getDiskUsed();
     }
+
+    // Getter methods
+    public static float[] getCpuUserVals() {return CpuUserVals;}
+    public static float[] getCpuSystemVals() {return CpuSystemVals;}
+    public static float[] getCpuIdleVals() {return CpuIdleVals;}
+    public static float[] getCpuNiceVals() {return CpuNiceVals;}
+    public static long[] getMemResidentVals() {return MemResidentVals;}
+    public static long[] getMemVirtualVals() {return MemVirtualVals;}
+    public static long[] getDiskTotalVals() {return DiskTotalVals;}
+    public static long[] getDiskUsedVals() {return DiskUsedVals;}
 }
