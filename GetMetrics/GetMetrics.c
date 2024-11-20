@@ -1,8 +1,8 @@
 #include <jni.h>
 
-#include "Metrics/headers/CPUMetrics.h"
-#include "Metrics/headers/MemMetrics.h"
-#include "Metrics/headers/DiskMetrics.h"
+#include "../Metrics/headers/CPUMetrics.h"
+#include "../Metrics/headers/MemMetrics.h"
+#include "../Metrics/headers/DiskMetrics.h"
 
 JNIEXPORT jfloat JNICALL Java_GetMetrics_getCpuUser(JNIEnv *env, jobject obj) {
     float *ptr = get_cpu_load();
