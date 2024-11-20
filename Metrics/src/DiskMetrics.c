@@ -14,7 +14,7 @@ long unsigned *get_disk_usage() {
 
     // Save disk usage statistics to an array and return pointer for array
     // f_blocks is total space, f_bfree is free space, f_bsize is size of filesystem in f_frsize units
-    long unsigned *bytes = (long unsigned *)malloc(2);
+    long unsigned *bytes = (long unsigned *)malloc(2 * sizeof(long unsigned));
     bytes[0] = disk_usage.f_blocks * disk_usage.f_bsize;
     bytes[1] = disk_usage.f_bfree * disk_usage.f_bsize;
     long unsigned *ptr = bytes;

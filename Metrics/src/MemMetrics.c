@@ -3,7 +3,7 @@
 #include <mach/mach.h> // Mach-specific APIs, used to get parameters like resident and virtual RAM
 
 // Returns a pointer pointing to the array holding the memory usage statistics
-unsigned long *get_memory_usage() {
+long unsigned *get_memory_usage() {
 
     task_basic_info_data_t memory_usage; // struct for memory usage statistics, populated later by task_info()
     mach_msg_type_number_t memory_usage_count = TASK_BASIC_INFO_COUNT; // specifies number of elements in the memory_usage struct
@@ -18,9 +18,9 @@ unsigned long *get_memory_usage() {
     }
 
     // Save memory usage statistics to an array and return pointer for array
-    unsigned long *bytes = (unsigned long *)malloc(2);
+    long unsigned *bytes = (long unsigned *)malloc(2 * sizeof(long unsigned));
     bytes[0] = memory_usage.resident_size;
     bytes[1] = memory_usage.virtual_size;
-    unsigned long *ptr = bytes;
+    long unsigned *ptr = bytes;
     return ptr;
 }
