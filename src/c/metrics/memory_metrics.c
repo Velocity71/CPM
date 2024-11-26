@@ -1,3 +1,7 @@
+// memory_metrics.c
+
+// Functions for memory metrics
+//
 #include <stdio.h> // used for error printing
 #include <stdlib.h> // used for the exit() function
 #include <mach/mach.h> // Mach-specific APIs, used to get parameters like resident and virtual RAM
