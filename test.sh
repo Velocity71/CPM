@@ -12,3 +12,7 @@ javac -d bin/java -cp bin/java Main.java
 
 cd bin/java
 java Main
+
+cd ..
+rm -f -r java
+rm -f -r native
